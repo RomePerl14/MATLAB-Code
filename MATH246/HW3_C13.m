@@ -4,22 +4,24 @@
 
 dydt = @(t, y) 9.*t - (3./t) * y;
 
-hold on;
-%%% a)
+close all
+%% a)
 [t, y] = myeuler(dydt, -.5, 3.15, 1.5, 10);
 plot(t, y, "-r");
 
-%%%% b)
+%% b)
+
+%%%% plot using the "myeuler" funcshion"
 [t1, y1] = imprvdmyeuler(dydt, -.5, 3.15, 1.5, 10);
 plot(t1, y1, "-b");
 
-%%% I cannot make sense of my answers, it seems that something weird is
-%%% happening towards after 0 on the graph, in fact it looks similar to a
-%%% electric signal wave (I think), but I'm not sure. The beginnning of
-%%% each plot is somewhat similar but then it gets all weird
+% I cannot make sense of my answers, it seems that something weird is
+% happening after 0 on the graph, in fact it looks similar to a
+% electric signal wave (I think), but I'm not sure. The beginnning of
+% each plot is somewhat similar but then it gets all weird after 0
 
 
-%%%% c)
+%% c)
 [t2, y2] = ode45(dydt, [-0.5:.0001:0.5], 3.15);
 
 
@@ -44,27 +46,32 @@ y_check_value()
 [t3, y3] = ode45(dydt, [-0.06:.02:0.06], y_check_value(1))
 plot(t3, y3, '-b')
 
-%%% It seems that the approximate solution is only defined on -.5 to 0,
-%%% where is goes to infinity as the limit approaches 0. However, plotting
-%%% numbers on the intervale -.06:.02:.06 results in consistant behavior;
-%%% as t approaches 0, the y values approach infinity, just like the
-%%% approximate function
+% It seems that the approximate solution is only defined on -.5 to 0,
+% where is goes to infinity as the limit approaches 0. Plotting
+% numbers on the interval -.06:.02:.06 results in consistant behavior 
+% with this idea as well;
+%
+% as t approaches 0, the y values approach infinity, just like the
+% approximate function
 
 hold off
-%%%% d)
+%% d)
 
+%%%% Solve the ODE at different initial values (AKA find the C values for
+%%%% each initial value - I think)
 % y(0) = 0, y(-.5) = 3.15, y(.5) = 3.15, y(-.5) = -3.45, y(.5) = -3.45
 
 % ty' + 3y -9t^2 = 0
 % ty' + 3y = 9t^2
 % y' + 3/t * y = 9t
-%IF = e ^ int(3/t)
-% IF = t^3
+% I.F. = e ^ 3ln(t)
+% I.F, = t^3
 % dy/dt (t^3 * 3/t * y) = t^3 * 9t
 % 3t^2 *y = int(9t^4)
 % 3t^2 * y = 9/5 * t^5
+
+%%%% General solution:
 % y = (3/5) * t^3 + C
-% y = (3/5).*t.^3 + C;
 y_ex = [0, 3.15, 3.15, -3.45, -3.45];
 t_ex = [0, -.5, .5, -.5, .5];
 for i = 1:1:5
@@ -94,4 +101,19 @@ plot(t_plot, y_plot5, "-b")
 % values of y after a certain t value are going to be a specific thing,
 % either infinty, -infinity, or a number, and it is then able to plot that
 % correctly.
+%
+%
+% To preface, after spending a day thinking about the outputs that were
+% apart of this problem, I know realize what was going on. Using my Euler,
+% we were able to approximate the outputs of the ODE until it reached 0,
+% where, rather than illustrating the approach to infinity, it starts to
+% act weird and inconsistant behavior wise. This issue is also prevalent in
+% the improved Euler approximation, where our approxiation when t<0 is
+% better, but we still are unable to correctly graph the solutions as it
+% approaches 0 and beyond. ode45 solves this behavior by correctly solving
+% for and understanding that the function approaches infinity as the limit
+% goes to zero. With this being the case, I don't believe parts A and B
+% would've provided meaningful data without the knowledge that both Euler
+% methods are unable to accurately describe the function as it approaches
+% 0. It's rather cool to see the differences between each method, however
 
