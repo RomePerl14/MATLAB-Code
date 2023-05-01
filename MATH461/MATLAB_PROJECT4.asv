@@ -59,22 +59,4 @@ eig(D_2)
 %%% c)
 % The Eigenvalue that is shared between each of the matrices A, B, C, D is
 % 0. This is because A, B, C, D are all non-invertible matrices, so they
-% have to have 0 as an eigenvalue. 0 can only be an eigenvalue of a matrix
-% if and only if the matrix is non-invertible.
-
-%% Question 3
-A_3 = [7 6 -2; -8 -7 2; 2 1 -1]
-
-%%% a)
-[P_3,D_3] = eig(A_3)
-
-A_3_check = P_3*D_3*inv(P_3)
-A_3_check_compare = int64(real(A_3_check))
-
-%%% b)
-if(A_3 == A_3_check_compare)
-    fprintf("A_3 and PDP^-1 are in fact equal! Woohoo!\n")
-end
-
-%%% c)
-%
+% have to have 0 as a
